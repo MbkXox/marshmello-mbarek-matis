@@ -15,14 +15,14 @@ export default class Migration extends BaseSchema {
 
 			table.integer('project_id').notNullable();
 			table.integer('status_id').nullable().defaultTo(null);
-      table.integer('tag_id').nullable().defaultTo(null);
+      table.uuid('tag_uuid').nullable().defaultTo(null);
 
 			table.timestamp('created_at').notNullable().defaultTo(this.now());
 			table.timestamp('updated_at').notNullable().defaultTo(this.now());
 
 			table.foreign('project_id').references('id').inTable('projects').onDelete('cascade');
 			table.foreign('status_id').references('id').inTable('statuses').onDelete('set null');
-      table.foreign('tag_id').references('id').inTable('tags').onDelete('set null');
+      table.foreign('tag_uuid').references('uuid').inTable('tags').onDelete('set null');
 		});
 	}
 

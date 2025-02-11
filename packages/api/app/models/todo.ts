@@ -32,7 +32,7 @@ export default class Todo extends BaseModel {
   declare statusId: number | null;
 
   @column()
-  declare tagId: number | null;
+  declare tagUuid: string | null;
 
   @belongsTo(() => Project)
   declare project: BelongsTo<typeof Project>;
@@ -40,7 +40,10 @@ export default class Todo extends BaseModel {
   @belongsTo(() => Status)
   declare status: BelongsTo<typeof Status>;
 
-  @belongsTo(() => Tag)
+  @belongsTo(() => Tag, {
+    foreignKey: 'tagUuid',
+    localKey: 'uuid',
+  })
   declare tag: BelongsTo<typeof Tag>;
 
   @column.dateTime({ autoCreate: true })
@@ -55,6 +58,6 @@ export default class Todo extends BaseModel {
     this.completed = false;
     this.description = null;
     this.statusId = null;
-    this.tagId = null;
+    this.tagUuid = null;
   }
 }

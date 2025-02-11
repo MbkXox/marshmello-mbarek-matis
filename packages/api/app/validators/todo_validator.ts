@@ -16,10 +16,10 @@ export const createSchema = vine.compile(
 			const row = await Project.find(value);
 			return row !== null;
 		}),
-		tagId: vine.number().exists(async (_, value) => {
-			const row = await Tag.find(value);
-			return row !== null;
-		}),
+    tagUuid: vine.string().exists(async (_, value) => {
+	    const row = await Tag.findBy('uuid', value);
+	  return row !== null;
+    }).optional(),
 	}),
 );
 
@@ -39,10 +39,10 @@ export const updateSchema = vine.compile(
 				return row !== null;
 			})
 			.optional(),
-    tagId: vine.number().exists(async (_, value) => {
-      const row = await Tag.find(value);
+    tagUuid: vine.string().exists(async (_, value) => {
+        const row = await Tag.findBy('uuid', value);
       return row !== null;
-    }),
+    }).optional(),
 		completed: vine.boolean().optional(),
 	}),
 );

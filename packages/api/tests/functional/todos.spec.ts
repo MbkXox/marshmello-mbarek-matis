@@ -38,7 +38,7 @@ test.group('Todos', (group) => {
 				description: baseTodo.description,
 				statusId: status.id,
 				projectId: project.id,
-        tagId: tag.id,
+        tagUuid: tag.uuid,
 			})
 			.loginAs(user);
 
@@ -49,7 +49,7 @@ test.group('Todos', (group) => {
 			completed: false,
 			projectId: project.id,
 			statusId: status.id,
-      tagId: tag.id,
+      tagUuid: tag.uuid,
 		});
 
 	});
@@ -70,7 +70,7 @@ test.group('Todos', (group) => {
 			description: baseTodo.description,
 			projectId: project.id,
 			statusId: status.id,
-      tagId: tag.id,
+      tagUuid: tag.uuid,
 		});
 
 		const getResponse = await client.get(`/todos/${todo.uuid}`).loginAs(user);
@@ -83,7 +83,7 @@ test.group('Todos', (group) => {
 			completed: false,
 			projectId: project.id,
 			statusId: status.id,
-      tagId: tag.id,
+      tagUuid: tag.uuid,
 		});
 	});
 
@@ -103,14 +103,14 @@ test.group('Todos', (group) => {
 			description: baseTodo.description,
 			projectId: project.id,
 			statusId: status.id,
-      tagId: tag.id,
+      tagUuid: tag.uuid,
 		});
 
 		const patchResponse = await client
 			.patch(`/todos/${todo.uuid}`)
 			.json({
 				completed: true,
-        tagId: tag.id,
+        tagUuid: tag.uuid,
 			})
 			.loginAs(user);
 
@@ -122,7 +122,7 @@ test.group('Todos', (group) => {
 			completed: true,
 			projectId: project.id,
 			statusId: status.id,
-      tagId: tag.id,
+      tagUuid: tag.uuid,
 		});
 	});
 
@@ -142,7 +142,7 @@ test.group('Todos', (group) => {
 			description: baseTodo.description,
 			projectId: project.id,
 			statusId: status.id,
-      tagId: tag.id,
+      tagUuid: tag.uuid,
 		});
 
 		const patchResponse = await client.delete(`/todos/${todo.uuid}`).loginAs(user);
