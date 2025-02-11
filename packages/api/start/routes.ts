@@ -7,6 +7,7 @@ const authController = () => import('#controllers/auth_controller');
 const accountController = () => import('#controllers/account_controller');
 const projectController = () => import('#controllers/project_controller');
 const statusController = () => import('#controllers/status_controller');
+const tagController = () => import('#controllers/tag_controller');
 
 router
 	.group(() => {
@@ -34,6 +35,18 @@ router
 	})
 	.use(middleware.auth())
 	.prefix('/projects');
+
+router
+
+  .group(() => {
+    router.get('/', [tagController, 'index']).as('tags.index');
+    router.get('/:uuid', [tagController, 'show']).as('tags.show');
+    router.post('/', [tagController, 'store']).as('tags.store');
+    router.patch('/:uuid', [tagController, 'update']).as('tags.update');
+    router.delete('/:uuid', [tagController, 'destroy']).as('tags.destroy');
+  })
+  .use(middleware.auth())
+  .prefix('/tags');
 
 router
 	.group(() => {

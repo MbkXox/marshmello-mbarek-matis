@@ -5,6 +5,7 @@ import Project from '#models/project';
 import Status from '#models/status';
 import Todo from '#models/todo';
 import User from '#models/user';
+import Tag from '#models/tag';
 
 test.group('Todos', (group) => {
 	group.each.setup(() => testUtils.db().withGlobalTransaction());
@@ -28,6 +29,7 @@ test.group('Todos', (group) => {
 		const user = await User.create({ username: 'test1234', password: 'test1234' });
 		const project = await Project.create({ name: 'mon projet', userId: user.id });
 		const status = await Status.create({ name: 'done', order: 1, projectId: project.id });
+    const tag = await Tag.create({ name: 'Urgent' });
 
 		const response = await client
 			.post('/todos')
@@ -36,6 +38,7 @@ test.group('Todos', (group) => {
 				description: baseTodo.description,
 				statusId: status.id,
 				projectId: project.id,
+        tagId: tag.id,
 			})
 			.loginAs(user);
 
@@ -46,7 +49,9 @@ test.group('Todos', (group) => {
 			completed: false,
 			projectId: project.id,
 			statusId: status.id,
+      tagId: tag.id,
 		});
+
 	});
 
 	test('it should get a todo by id', async ({ client }) => {
@@ -58,11 +63,14 @@ test.group('Todos', (group) => {
 		const user = await User.create({ username: 'test1234', password: 'test1234' });
 		const project = await Project.create({ name: 'mon projet', userId: user.id });
 		const status = await Status.create({ name: 'done', order: 1, projectId: project.id });
+    const tag = await Tag.create({ name: 'Urgent' });
+
 		const todo = await Todo.create({
 			name: baseTodo.name,
 			description: baseTodo.description,
 			projectId: project.id,
 			statusId: status.id,
+      tagId: tag.id,
 		});
 
 		const getResponse = await client.get(`/todos/${todo.uuid}`).loginAs(user);
@@ -75,6 +83,7 @@ test.group('Todos', (group) => {
 			completed: false,
 			projectId: project.id,
 			statusId: status.id,
+      tagId: tag.id,
 		});
 	});
 
@@ -87,17 +96,21 @@ test.group('Todos', (group) => {
 		const user = await User.create({ username: 'test1234', password: 'test1234' });
 		const project = await Project.create({ name: 'mon projet', userId: user.id });
 		const status = await Status.create({ name: 'done', order: 1, projectId: project.id });
+    const tag = await Tag.create({ name: 'Urgent' });
+
 		const todo = await Todo.create({
 			name: baseTodo.name,
 			description: baseTodo.description,
 			projectId: project.id,
 			statusId: status.id,
+      tagId: tag.id,
 		});
 
 		const patchResponse = await client
 			.patch(`/todos/${todo.uuid}`)
 			.json({
 				completed: true,
+        tagId: tag.id,
 			})
 			.loginAs(user);
 
@@ -109,6 +122,7 @@ test.group('Todos', (group) => {
 			completed: true,
 			projectId: project.id,
 			statusId: status.id,
+      tagId: tag.id,
 		});
 	});
 
@@ -121,11 +135,14 @@ test.group('Todos', (group) => {
 		const user = await User.create({ username: 'test1234', password: 'test1234' });
 		const project = await Project.create({ name: 'mon projet', userId: user.id });
 		const status = await Status.create({ name: 'done', order: 1, projectId: project.id });
+    const tag = await Tag.create({ name: 'Urgent' });
+
 		const todo = await Todo.create({
 			name: baseTodo.name,
 			description: baseTodo.description,
 			projectId: project.id,
 			statusId: status.id,
+      tagId: tag.id,
 		});
 
 		const patchResponse = await client.delete(`/todos/${todo.uuid}`).loginAs(user);
